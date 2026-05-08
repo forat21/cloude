@@ -55,14 +55,6 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/api/auth', authRoutes);
 app.use('/api/files', fileRoutes);
 
-// Serve frontend
-app.use(express.static(path.join(__dirname, '../client')));
-
-// Catch all handler: send back index.html for any non-API routes
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/index.html'));
-});
-
 const PORT = process.env.PORT || 5000;
 const HOST = '0.0.0.0';
 app.listen(PORT, HOST, () => {
