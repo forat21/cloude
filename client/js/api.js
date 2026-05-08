@@ -1,8 +1,8 @@
 // API utility functions
 // Automatically detect API base URL (works when served from the backend or opened locally)
-const API_ORIGIN = (window.location.protocol === 'file:' || !window.location.hostname)
+const API_ORIGIN = (window.location.hostname === 'localhost' || window.location.protocol === 'file:')
   ? 'http://localhost:5000'
-  : `${window.location.protocol}//${window.location.hostname}${window.location.port ? ':' + window.location.port : ''}`;
+  : 'https://cloude-vqux.onrender.com';
 const API_BASE = `${API_ORIGIN}/api`;
 const UPLOAD_BASE = API_ORIGIN;
 
