@@ -23,7 +23,10 @@ class API {
     }
 
     try {
-      const response = await fetch(url, config);
+      const response = await fetch(url, {
+        ...config,
+        credentials: 'include'
+      });
       const data = await response.json();
 
       if (!response.ok) {
@@ -96,6 +99,7 @@ class API {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      credentials: 'include'
     });
 
     if (!response.ok) {
