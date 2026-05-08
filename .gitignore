@@ -1,0 +1,22 @@
+# Ignore node modules
+server/node_modules/
+
+# Ignore uploads and runtime files
+server/uploads/
+
+# Environment files
+.env
+server/.env
+client/.env
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Installer and local tools
+mongodb-installer.msi
