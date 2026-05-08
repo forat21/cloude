@@ -12,23 +12,20 @@ const app = express();
 // Connect to MongoDB
 connectDB();
 
-// CORS Configuration for network access
-app.use(cors());
+// CORS Configuration
+const corsOptions = {
+  origin: [
+    'http://localhost:3000',
+    'https://cloude-production-c26c.up.railway.app'
+  ],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+};
+
+app.use(cors(corsOptions));
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
-
-// Add headers for network access
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', req.headers.origin || '*');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  res.header('Access-Control-Allow-Credentials', 'true');
-  if (req.method === 'OPTIONS') {
-    res.sendStatus(200);
-  } else {
-    next();
-  }
-});
 
 // Serve static files from uploads
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
