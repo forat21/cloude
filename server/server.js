@@ -14,17 +14,7 @@ connectDB();
 
 // CORS Configuration for network access
 const corsOptions = {
-  origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps or curl requests)
-    // Allow localhost and 127.0.0.1 on any port
-    // Allow any IP address on port 5000
-    if (!origin || 
-        origin.match(/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/) ||
-        origin.match(/^https?:\/\/(\d+\.\d+\.\d+\.\d+):5000$/)) {
-      return callback(null, true);
-    }
-    return callback(null, true); // Allow all for development
-  },
+  origin: true, // Allow all origins
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
