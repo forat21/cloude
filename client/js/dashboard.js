@@ -33,8 +33,10 @@ async function loadFiles() {
     allFiles = data;
     filteredFiles = [...allFiles];
     renderFiles();
+    return true;
   } catch (error) {
     showNotification(error.message, 'error');
+    throw error;
   }
 }
 
@@ -74,7 +76,9 @@ function renderFiles() {
 }
 
 function getFilePreview(file) {
-  const filePath = `http://${window.location.hostname}:5000/${file.filePath}`;
+  const base = UPLOAD_BASE || window.location.origin;
+  let filePath = `${base}/${file.filePath}`;
+  filePath = filePath.replace(/([^:]\/\/)\//g, '$1');
 
   if (file.fileType === 'images') {
     return `<img src="${filePath}" alt="${file.originalName}" class="file-preview">`;

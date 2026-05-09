@@ -18,7 +18,7 @@ const UPLOAD_BASE = window.location.protocol === 'file:'
   ? `http://${host}:5000`
   : window.location.hostname.includes('vercel.app')
   ? 'https://your-render-app.onrender.com'
-  : '';  // Relative for same-domain
+  : window.location.origin;  // Relative for same-domain
 
 class API {
   static async request(endpoint, options = {}) {

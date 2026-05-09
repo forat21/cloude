@@ -1,8 +1,15 @@
 // Authentication logic
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   const token = localStorage.getItem('token');
   if (token) {
-    showDashboard();
+    try {
+      await loadFiles();
+      showDashboard();
+    } catch (error) {
+      localStorage.removeItem('token');
+      showAuth();
+      showNotification('Session expired or invalid. Please log in again.', 'error');
+    }
   } else {
     showAuth();
   }
@@ -31,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
       localStorage.setItem('token', data.token);
       showNotification('Login successful!');
       showDashboard();
+      await loadFiles();
     } catch (error) {
       showNotification(error.message, 'error');
     }
@@ -49,6 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
       localStorage.setItem('userId', data.user.id);
       showNotification('Registration successful!');
       showDashboard();
+      await loadFiles();
     } catch (error) {
       showNotification(error.message, 'error');
     }
@@ -83,5 +92,4 @@ function showAuth() {
 function showDashboard() {
   document.getElementById('auth-section').classList.add('hidden');
   document.getElementById('dashboard').classList.remove('hidden');
-  loadFiles(); // Load files when showing dashboard
 }
