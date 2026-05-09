@@ -46,6 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const data = await API.register({ username, email, password });
       localStorage.setItem('token', data.token);
+      localStorage.setItem('userId', data.user.id);
       showNotification('Registration successful!');
       showDashboard();
     } catch (error) {

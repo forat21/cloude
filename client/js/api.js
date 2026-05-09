@@ -1,8 +1,10 @@
 // API utility functions
 // Automatically detect API base URL (works when served from the backend or opened locally)
-const API_ORIGIN = (window.location.hostname === 'localhost' || window.location.protocol === 'file:')
+const API_ORIGIN = window.location.protocol === 'file:'
   ? 'http://localhost:5000'
-  : 'https://cloude-production-c26c.up.railway.app';
+  : window.location.hostname === 'localhost'
+  ? 'http://localhost:5000'
+  : `http://${window.location.hostname}:5000`;
 const API_BASE = `${API_ORIGIN}/api`;
 const UPLOAD_BASE = API_ORIGIN;
 
