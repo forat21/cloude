@@ -1,14 +1,19 @@
 // API utility functions
 // Automatically detect API base URL (works when served from the backend or opened locally)
-const API_ORIGIN = window.location.protocol === 'file:'
+const API_BASE = window.location.protocol === 'file:'
+  ? 'http://localhost:5000/api'
+  : window.location.hostname === 'localhost'
+  ? 'http://localhost:5000/api'
+  : window.location.hostname.includes('vercel.app')
+  ? 'https://your-render-app.onrender.com/api'  // For separate deployment
+  : '/api';  // Relative for same-domain deployment (Railway)
+const UPLOAD_BASE = window.location.protocol === 'file:'
   ? 'http://localhost:5000'
   : window.location.hostname === 'localhost'
   ? 'http://localhost:5000'
   : window.location.hostname.includes('vercel.app')
-  ? 'https://your-render-app.onrender.com'  // Replace with your Render URL
-  : `http://${window.location.hostname}:5000`;
-const API_BASE = `${API_ORIGIN}/api`;
-const UPLOAD_BASE = API_ORIGIN;
+  ? 'https://your-render-app.onrender.com'
+  : '';  // Relative for same-domain
 
 class API {
   static async request(endpoint, options = {}) {

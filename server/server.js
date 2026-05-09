@@ -34,6 +34,19 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/api/auth', authRoutes);
 app.use('/api/files', fileRoutes);
 
+// Serve static files from client folder (for production deployment)
+app.use(express.static(path.join(__dirname, '../client')));
+
+// Catch all handler: send back index.html for any non-API routes
+app.get('*', (req, res) => {
+  // Only serve index.html for non-API routes
+  if (!req.path.startsWith('/api')) {
+    res.sendFile(path.join(__dirname, '../client/index.html'));
+  } else {
+    res.status(404).json({ message: 'API endpoint not found' });
+  }
+});
+
 const PORT = process.env.PORT || 5000;
 const HOST = '0.0.0.0';
 app.listen(PORT, HOST, () => {
