@@ -1,16 +1,21 @@
 // API utility functions
-// Automatically detect API base URL (works when served from the backend or opened locally)
+// Automatically detect API base URL for local and deployed environments
+const host = window.location.hostname;
+const isLocalHost = host === 'localhost' || host === '127.0.0.1';
+const isLocalNetwork = /^10\.|^192\.168\.|^172\.(1[6-9]|2[0-9]|3[0-1])\./.test(host);
+
 const API_BASE = window.location.protocol === 'file:'
   ? 'http://localhost:5000/api'
-  : window.location.hostname === 'localhost'
-  ? 'http://localhost:5000/api'
+  : isLocalHost || isLocalNetwork
+  ? `http://${host}:5000/api`
   : window.location.hostname.includes('vercel.app')
   ? 'https://your-render-app.onrender.com/api'  // For separate deployment
   : '/api';  // Relative for same-domain deployment (Railway)
+
 const UPLOAD_BASE = window.location.protocol === 'file:'
   ? 'http://localhost:5000'
-  : window.location.hostname === 'localhost'
-  ? 'http://localhost:5000'
+  : isLocalHost || isLocalNetwork
+  ? `http://${host}:5000`
   : window.location.hostname.includes('vercel.app')
   ? 'https://your-render-app.onrender.com'
   : '';  // Relative for same-domain

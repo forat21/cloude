@@ -13,11 +13,29 @@ const app = express();
 connectDB();
 
 // CORS Configuration
+const allowedOrigins = [
+  'http://localhost:3000',
+  'http://127.0.0.1:3000',
+  'https://cloude-production-c26c.up.railway.app'
+];
+
+function isLocalNetworkOrigin(origin) {
+  if (!origin) return false;
+  try {
+    const parsed = new URL(origin);
+    return /^(localhost|127\.0\.0\.1|10\.|192\.168\.|172\.(1[6-9]|2[0-9]|3[0-1]))/.test(parsed.hostname) && parsed.port === '3000';
+  } catch (err) {
+    return false;
+  }
+}
+
 const corsOptions = {
-  origin: [
-    'http://localhost:3000',
-    'https://cloude-production-c26c.up.railway.app'
-  ],
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin) || isLocalNetworkOrigin(origin)) {
+      return callback(null, true);
+    }
+    callback(new Error('Not allowed by CORS'));
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
